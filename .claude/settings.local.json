@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(py -m py_compile core/kick.py index.py core/logger.py core/cookies_manager.py)",
+      "Bash(py -c ' *)"
+    ]
+  }
+}
