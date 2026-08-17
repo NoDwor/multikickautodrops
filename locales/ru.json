@@ -1,7 +1,7 @@
 {
     "links":"\nhttps://github.com/PBA4EVSKY/kickautodrops/\nhttps://t.me/+PlkICOhgSLFjMDdi\n",
     "file_view_found":"Файл найден",
-    "no_accounts_found":"❌ Не найдено ни одного файла cookies (cookies1.txt … cookies{max}.txt) в корне проекта. Добавьте файлы и запустите снова.",
+    "no_accounts_found":"❌ Не найдено ни одного файла кук (*.txt в формате Netscape) в корне проекта. Добавьте файлы и запустите снова.",
     "accounts_found":"✓ Найдено аккаунтов: {count} (слоты: {slots})",
     "account_starting":"▶ Старт аккаунта: слот {slot} ({file})",
     "account_nick_resolved":"✓ Ник аккаунта определён с Kick: {nick}",
