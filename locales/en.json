@@ -1,11 +1,9 @@
 {
     "links": "\nhttps://github.com/PBA4EVSKY/kickautodrops/\nhttps://t.me/+PlkICOhgSLFjMDdi\n",
     "file_view_found":"File found",
-    "no_accounts_found":"❌ No cookie files found (cookies1.txt … cookies{max}.txt) in the project root. Add files and run again.",
+    "no_accounts_found":"❌ No cookie files (*.txt in Netscape format) found in the project root. Add files and run again.",
     "accounts_found":"✓ Accounts found: {count} (slots: {slots})",
     "account_starting":"▶ Starting account: slot {slot} ({file})",
-    "account_nick_resolved":"✓ Account nickname resolved from Kick: {nick}",
-    "account_nick_fallback":"⚠ Could not resolve nickname from Kick, using filename: {fallback}",
     "account_cookies_invalid":"❌ Failed to load cookies from {file}, account skipped.",
     "all_accounts_started":"🚀 Accounts started: {count}. Farming runs in parallel. Press Ctrl+C to stop.",
     "select_menu":"Select a menu item:",

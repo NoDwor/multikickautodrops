@@ -4,8 +4,6 @@
     "no_accounts_found":"❌ Не найдено ни одного файла кук (*.txt в формате Netscape) в корне проекта. Добавьте файлы и запустите снова.",
     "accounts_found":"✓ Найдено аккаунтов: {count} (слоты: {slots})",
     "account_starting":"▶ Старт аккаунта: слот {slot} ({file})",
-    "account_nick_resolved":"✓ Ник аккаунта определён с Kick: {nick}",
-    "account_nick_fallback":"⚠ Не удалось определить ник с Kick, используем имя файла: {fallback}",
     "account_cookies_invalid":"❌ Не удалось загрузить cookies из {file}, аккаунт пропущен.",
     "all_accounts_started":"🚀 Запущено аккаунтов: {count}. Фарм идёт параллельно. Ctrl+C для остановки.",
     "select_menu":"Выберите пункт меню:",

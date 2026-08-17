@@ -1,6 +1,8 @@
 import asyncio
+import glob
 import json
 import os
+import re
 import threading
 import traceback
 from functools import partial
@@ -17,28 +19,48 @@ from core import formatter
 from core import cookies_manager
 
 
-# Сколько слотов аккаунтов сканируем: cookies1.txt … cookies22.txt
-MAX_ACCOUNTS = 22
 # Категория (game_id) для фарма — как в исходной программе (13).
 CATEGORY_ID = 13
-# Папка с файлами прогресса по аккаунтам (views/cookiesN.json).
+# Папка с файлами прогресса по аккаунтам (views/<имя файла>.json).
 VIEWS_DIR = "views"
+
+# Файл кук в формате Netscape всегда начинается с этой «магической» строки —
+# ровно её требует http.cookiejar.MozillaCookieJar при загрузке. По ней отличаем
+# настоящие куки от прочих .txt в корне (requirements.txt, README и т.п.).
+_COOKIE_MAGIC_RE = re.compile(r"#( Netscape)? HTTP Cookie File")
+
+
+def _looks_like_cookie_file(path):
+    """True, если файл — Netscape cookie jar (его сможет загрузить MozillaCookieJar)."""
+    try:
+        with open(path, "r", encoding="utf-8", errors="ignore") as f:
+            return bool(_COOKIE_MAGIC_RE.search(f.readline()))
+    except OSError:
+        return False
+
+
+def _natural_key(path):
+    """Человеческая сортировка: cookies2.txt раньше cookies10.txt."""
+    name = os.path.basename(path).lower()
+    return [int(tok) if tok.isdigit() else tok for tok in re.split(r"(\d+)", name)]
 
 
 def discover_accounts():
-    """Ищем существующие файлы cookies1.txt..cookies22.txt в корне проекта.
-    Для каждого найденного собираем описание аккаунта (слот привязан к номеру
-    файла, чтобы прогресс не путался между аккаунтами)."""
+    """Считаем аккаунтом каждый *.txt в корне проекта, который является файлом
+    кук в формате Netscape. Имя файла без расширения — это и метка-фолбэк для
+    логов, и имя файла прогресса (views/<имя>.json), чтобы прогресс не путался
+    между аккаунтами."""
+    files = [p for p in sorted(glob.glob("*.txt"), key=_natural_key)
+             if _looks_like_cookie_file(p)]
     accounts = []
-    for i in range(1, MAX_ACCOUNTS + 1):
-        cookies_file = f"cookies{i}.txt"
-        if os.path.exists(cookies_file):
-            accounts.append({
-                "slot": i,
-                "cookies_file": cookies_file,
-                "progress_file": os.path.join(VIEWS_DIR, f"cookies{i}.json"),
-                "fallback_label": f"cookies{i}",
-            })
+    for slot, cookies_file in enumerate(files, start=1):
+        stem = os.path.splitext(os.path.basename(cookies_file))[0]
+        accounts.append({
+            "slot": slot,
+            "cookies_file": cookies_file,
+            "progress_file": os.path.join(VIEWS_DIR, f"{stem}.json"),
+            "fallback_label": stem,
+        })
     return accounts
 
 
@@ -218,21 +240,13 @@ async def start_streamer_drops(cookies_file, progress_file):
 
 async def run_account(acc, mode):
     """Точка входа одного аккаунта (выполняется в своём потоке / event loop)."""
-    # Пока ник не определён — метим логи именем файла.
+    # Метка логов = имя файла кук (cookiesN / <ник>.txt).
     logger.set_label(acc["fallback_label"])
 
     cookies = cookies_manager.load_cookies(acc["cookies_file"])
     if not cookies:
         print(tl.c["account_cookies_invalid"].format(file=acc["cookies_file"]))
         return
-
-    # Резолвим ник с Kick, при неудаче — остаёмся на имени файла.
-    nick = kick.get_account_username(cookies)
-    if nick:
-        logger.set_label(nick)
-        print(tl.c["account_nick_resolved"].format(nick=nick))
-    else:
-        print(tl.c["account_nick_fallback"].format(fallback=acc["fallback_label"]))
 
     # Синхронизируем/клеймим дропы перед стартом цикла.
     await view_controller.check_campaigns_claim_status(acc["cookies_file"], acc["progress_file"])
@@ -261,7 +275,7 @@ def main():
 
     accounts = discover_accounts()
     if not accounts:
-        print(tl.c["no_accounts_found"].format(max=MAX_ACCOUNTS))
+        print(tl.c["no_accounts_found"])
         return
 
     slots = ", ".join(str(a["slot"]) for a in accounts)
