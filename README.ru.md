@@ -33,7 +33,7 @@
    - [Get cookies.txt LOCALLY (Chrome)](https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc)
    - [Get cookies.txt LOCALLY (Firefox)](https://addons.mozilla.org/en-US/firefox/addon/get-cookies-txt-locally/)  
 5. Экспортируйте все cookies с сайта [kick.com](https://kick.com)  
-6. Сохраните их в файл **`cookies.txt`** рядом с исполняемым файлом или Python-скриптом  
+6. Сохраните их в `.txt`-файл (например **`cookies.txt`**) рядом с исполняемым файлом — можно положить несколько файлов для нескольких аккаунтов (см. раздел «👥 Аккаунты и cookies» ниже)  
 7. Запустите программу из терминала или командной строки  
 
 ---
@@ -48,11 +48,32 @@ git clone https://github.com/PBA4EVSKY/kickautodrops.git
 cd kickautodrops
 
 # Установите зависимости
-pip install pyinstaller
+pip install -r requirements.txt
 
-# Соберите исполняемый файл
+# Запустите из исходников
+python index.py
+
+# — либо соберите отдельный исполняемый файл —
+pip install pyinstaller
 pyinstaller index.spec
 ```
+
+---
+
+## 👥 Аккаунты и cookies
+
+Программа сама находит все аккаунты по файлам cookies в корне проекта — заранее задавать их количество не нужно.
+
+- Экспортируйте cookies с [kick.com](https://kick.com) расширением **Get cookies.txt LOCALLY** — оно сохраняет файл в формате **Netscape** (первая строка `# Netscape HTTP Cookie File`).
+- Положите файл в корень проекта. **Любой `*.txt` в формате Netscape считается отдельным аккаунтом**, имя произвольное: `cookies1.txt`, `main.txt`, `nick.txt`.
+- Нужно **несколько аккаунтов** — просто добавьте несколько таких файлов. Все они фармят **параллельно**.
+- `requirements.txt` и прочие не-cookie `.txt` автоматически пропускаются.
+- Прогресс каждого аккаунта хранится отдельно в `views/<имя_файла>.json`, а в логах аккаунт помечается именем своего файла.
+
+> ⚠️ Файл cookies содержит ваш `session_token` — это фактически доступ к аккаунту. Такие файлы уже внесены в `.gitignore`; **никогда не коммитьте и не публикуйте их.**
+
+---
+
 ## Contributing❤️
 Хотите добавить новую функцию, улучшить код или помочь с переводом?
 Смело форкните репозиторий и отправляйте pull request —

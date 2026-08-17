@@ -22,7 +22,7 @@ Every 10 seconds, the application simulates watching a stream by fetching stream
 3. Extract the executable
 4. Install extension [Get cookies.txt LOCALLY for chrome](https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc) or [Get cookies.txt LOCALLY for firefox](https://addons.mozilla.org/en-US/firefox/addon/get-cookies-txt-locally/) 
 5. Export all cookies from kick.com
-6. Place all contents into the "cookies.txt" file next to the executable python script.
+6. Save them into a `.txt` file (e.g. **`cookies.txt`**) next to the executable — you can add several files for several accounts (see the "👥 Accounts & cookies" section below)
 7. Run from terminal/command prompt
 
 ### 3: Build from Source
@@ -34,9 +34,28 @@ git clone https://github.com/PBA4EVSKY/kickautodrops.git
 # Navigate to the directory
 cd kickautodrops
 
+# Install dependencies
+pip install -r requirements.txt
+
+# Run from source
+python index.py
+
+# — or build a standalone executable —
 pip install pyinstaller
 pyinstaller index.spec
 ```
+
+## 👥 Accounts & cookies
+
+The app auto-discovers every account from the cookie files in the project root — you don't need to configure how many there are.
+
+- Export your cookies from [kick.com](https://kick.com) with the **Get cookies.txt LOCALLY** extension — it saves a file in the **Netscape** format (first line `# Netscape HTTP Cookie File`).
+- Drop the file into the project root. **Every `*.txt` in Netscape format counts as a separate account**; the name is arbitrary: `cookies1.txt`, `main.txt`, `nick.txt`.
+- Need **multiple accounts**? Just add several such files — they all farm **in parallel**.
+- `requirements.txt` and other non-cookie `.txt` files are skipped automatically.
+- Each account's progress is stored separately in `views/<filename>.json`, and logs are tagged with the account's file name.
+
+> ⚠️ A cookie file contains your `session_token` — effectively account access. These files are already in `.gitignore`; **never commit or publish them.**
 
 ## ❤️Contributing
 
