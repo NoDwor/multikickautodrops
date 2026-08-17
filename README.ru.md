@@ -27,12 +27,10 @@
 
 ## 🧩 Установка
 
-### Вариант 1: Готовая сборка (Windows / Linux)
+### Вариант 1: Готовая сборка (Windows)
 
 1. Откройте раздел [Releases](https://github.com/NoDwor/multikickautodrops/releases)
-2. Скачайте последнюю сборку под свою ОС:
-   - **Windows** — `KickAutoDrops-windows.zip`
-   - **Linux** — `KickAutoDrops-linux.tar.gz`
+2. Скачайте последнюю сборку для **Windows** — `KickAutoDrops-windows.zip`
 3. Распакуйте архив. Держите папку `locales/` и файл `example_config.ini` **рядом с исполняемым файлом**.
 4. Установите расширение для экспорта cookies:
    - [Get cookies.txt LOCALLY (Chrome)](https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc)

@@ -26,12 +26,10 @@ To keep channel status accurate (ONLINE / OFFLINE), it also opens a **WebSocket*
 
 ## 🧩 Installation
 
-### Option 1: Pre-built release (Windows / Linux)
+### Option 1: Pre-built release (Windows)
 
 1. Open the [Releases](https://github.com/NoDwor/multikickautodrops/releases) page
-2. Download the latest build for your OS:
-   - **Windows** — `KickAutoDrops-windows.zip`
-   - **Linux** — `KickAutoDrops-linux.tar.gz`
+2. Download the latest build — `KickAutoDrops-windows.zip`
 3. Extract the archive. Keep the `locales/` folder and `example_config.ini` **next to the executable**.
 4. Install a cookie-export extension:
    - [Get cookies.txt LOCALLY (Chrome)](https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc)
